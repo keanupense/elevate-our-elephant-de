@@ -516,6 +516,15 @@ export default function TopicDetail() {
   const [earnedXP, setEarnedXP] = useState(0);
 
   useEffect(() => {
+    if (!showXPScreen) return;
+    const topicKey = topicId || "medienkritik";
+    const timer = window.setTimeout(() => {
+      navigate(`/topic/${topicKey}`);
+    }, 2000);
+    return () => window.clearTimeout(timer);
+  }, [showXPScreen, navigate, topicId]);
+
+  useEffect(() => {
     // Map route topic IDs to quizData keys
     const topicKeyMap: Record<string, string> = {
       history: "geschichte",
@@ -639,10 +648,6 @@ export default function TopicDetail() {
           });
         }
 
-        // 2) Zur passenden Roadmap zurück (kein 404 mehr)
-        setTimeout(() => {
-          navigate(`/topic/${topicId || "medienkritik"}`);
-        }, 2500);
       }
     }
   };
